@@ -43,6 +43,7 @@ class ChatGPTClient(BaseBrowser):
     textarea_tq = 'textarea'
     textarea_iq = 'prompt-textarea'
     gpt_xq    = '//span[text()="{}"]'
+    wait_until_disappear_delay = 100
 
     def __init__(self, **kwargs):
         super().__init__(
@@ -177,7 +178,7 @@ class ChatGPTClient(BaseBrowser):
             text_area.send_keys(Keys.SHIFT + Keys.ENTER)
         text_area.send_keys(Keys.RETURN)
         logging.info('Message sent, waiting for response')
-        self.wait_until_disappear(By.XPATH, self.wait_xq)
+        self.wait_until_disappear(By.XPATH, self.wait_xq, self.wait_until_disappear_delay)
         answer = self.find_or_fail(By.XPATH, self.chatbox_xq, return_type='last')
         if not answer:
             logging.error('There is no answer, something is wrong')
@@ -228,7 +229,7 @@ class ChatGPTClient(BaseBrowser):
 
         regen_button.click()
         logging.info('Clicked regenerate button')
-        self.wait_until_disappear(By.XPATH, self.wait_xq)
+        self.wait_until_disappear(By.XPATH, self.wait_xq, self.wait_until_disappear_delay)
         answer = self.find_or_fail(By.XPATH, self.chatbox_xq, return_type='last')
         if not answer:
             logging.error('Regenerated answer is not present')
