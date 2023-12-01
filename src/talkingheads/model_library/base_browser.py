@@ -50,6 +50,7 @@ class BaseBrowser:
         self.url            = url
         self.uname_env_var  = uname_env_var
         self.pwd_env_var    = pwd_env_var
+        self.login_type    = login_type
         self.headless       = headless
         self.ready          = False
         self.auto_save = auto_save
