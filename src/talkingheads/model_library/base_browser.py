@@ -32,6 +32,7 @@ class BaseBrowser:
         pwd_env_var : str = None,
         username: str = '',
         password: str = '',
+        login_type: str = '',
         headless: bool = True,
         cold_start: bool = False,
         incognito: bool = True,
@@ -110,7 +111,7 @@ class BaseBrowser:
             raise RuntimeError('Verification failed, please check your connection.')
 
         if not skip_login:
-            self.login(username, password)
+            self.login(username, password, login_type)
 
         logging.info('%s is ready to interact', self.client_name)
         self.ready = True
