@@ -39,6 +39,7 @@ class ChatGPTClient(BaseBrowser):
     wait_xq     = '//button[@aria-label="Stop generating"]'
     reset_xq    = '//div[text()="New chat"]'
     reset_cq    = 'truncate'
+    continue_generate_xq    = '//button[div[contains(text(), "Continue generating")]]'
     regen_xq    = '//button//div//*[name()="svg"]'
     textarea_tq = 'textarea'
     textarea_iq = 'prompt-textarea'
@@ -179,6 +180,9 @@ class ChatGPTClient(BaseBrowser):
         text_area.send_keys(Keys.RETURN)
         logging.info('Message sent, waiting for response')
         self.wait_until_disappear(By.XPATH, self.wait_xq, self.wait_until_disappear_delay)
+        if self.find_or_fail(By.XPATH, sefl.continue_generate_xq, return_type='last'):
+            self.find_or_fail(By.XPATH, sefl.continue_generate_xq, return_type='last').click()
+            self.wait_until_disappear(By.XPATH, self.wait_xq, self.wait_until_disappear_delay)
         answer = self.find_or_fail(By.XPATH, self.chatbox_xq, return_type='last')
         if not answer:
             logging.error('There is no answer, something is wrong')
