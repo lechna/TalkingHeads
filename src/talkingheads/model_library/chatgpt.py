@@ -207,8 +207,8 @@ class ChatGPTClient(BaseBrowser):
         text_area.send_keys(Keys.RETURN)
         logging.info('Message sent, waiting for response')
         self.wait_until_disappear(By.XPATH, self.wait_xq, self.wait_until_disappear_delay)
-        if self.find_or_fail(By.XPATH, sefl.continue_generate_xq, return_type='last'):
-            self.find_or_fail(By.XPATH, sefl.continue_generate_xq, return_type='last').click()
+        if self.find_or_fail(By.XPATH, self.continue_generate_xq, return_type='last'):
+            self.find_or_fail(By.XPATH, self.continue_generate_xq, return_type='last').click()
             self.wait_until_disappear(By.XPATH, self.wait_xq, self.wait_until_disappear_delay)
         answer = self.find_or_fail(By.XPATH, self.chatbox_xq, return_type='last')
         if not answer:
