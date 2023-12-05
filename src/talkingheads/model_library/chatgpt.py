@@ -119,18 +119,22 @@ class ChatGPTClient(BaseBrowser):
             #click Button to open Google Login
             continue_button = self.sleepy_find_element(By.XPATH, self.google_login_xq)
             continue_button.click()
+            time.sleep(1)
 
             email_box = self.sleepy_find_element(By.ID, 'identifierId')
             email_box.send_keys(username)
+            time.sleep(1)
             logging.info('Filled email box')
 
             #click continue Button
-            continue_button = self.sleepy_find_element(By.XPATH, self.google_continue_xq).click()
+            continue_button = self.sleepy_find_element(By.XPATH, self.google_continue_xq)
             continue_button.click()
+            time.sleep(1)
 
             # Find password textbox, enter password
             pass_box = self.sleepy_find_element(By.XPATH, self.google_password_xq)
             pass_box.send_keys(password)
+            time.sleep(1)
             logging.info('Filled password box')
 
         else:
