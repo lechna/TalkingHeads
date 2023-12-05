@@ -20,6 +20,9 @@ logging.basicConfig(
 
 class ChatGPTClient(BaseBrowser):
     '''ChatGPTClient class to interact with ChatGPT'''
+    google_login_xq    = '//button//span[text()="Continue with Google"]'
+    google_continue_xq = '//button//span[contains(text(),"Weiter")]'
+    google_password_xq = '//input[@name="Passwd"]'
 
     login_xq    = '//button[//div[text()="Log in"]]'
     continue_xq = '//button[text()="Continue"]'
@@ -90,7 +93,7 @@ class ChatGPTClient(BaseBrowser):
 
         return True
 
-    def login(self, username :str, password :str):
+    def login(self, username :str, password :str, login_type :str):
         '''
         Performs the login process with the provided username and password.
 
@@ -112,21 +115,41 @@ class ChatGPTClient(BaseBrowser):
         logging.info('Clicked login button')
         time.sleep(1)
 
-        # Find email textbox, enter e-mail
-        email_box = self.sleepy_find_element(By.ID, 'username')
-        email_box.send_keys(username)
-        logging.info('Filled email box')
+        if login_type == 'GOOGLE':
+            #click Button to open Google Login
+            continue_button = self.sleepy_find_element(By.XPATH, self.google_login_xq)
+            continue_button.click()
 
-        # Click continue
-        continue_button = self.sleepy_find_element(By.XPATH, self.continue_xq)
-        continue_button.click()
-        time.sleep(1)
-        logging.info('Clicked continue button')
+            email_box = self.sleepy_find_element(By.ID, 'identifierId')
+            email_box.send_keys(username)
+            logging.info('Filled email box')
 
-        # Find password textbox, enter password
-        pass_box = self.sleepy_find_element(By.ID, 'password')
-        pass_box.send_keys(password)
-        logging.info('Filled password box')
+            #click continue Button
+            continue_button = self.sleepy_find_element(By.XPATH, self.google_continue_xq).click()
+            continue_button.click()
+
+            # Find password textbox, enter password
+            pass_box = self.sleepy_find_element(By.XPATH, self.google_password_xq)
+            pass_box.send_keys(password)
+            logging.info('Filled password box')
+
+        else:
+            # Find email textbox, enter e-mail
+            email_box = self.sleepy_find_element(By.ID, 'username')
+            email_box.send_keys(username)
+            logging.info('Filled email box')
+
+            # Click continue
+            continue_button = self.sleepy_find_element(By.XPATH, self.continue_xq)
+            continue_button.click()
+            time.sleep(1)
+            logging.info('Clicked continue button')
+
+            # Find password textbox, enter password
+            pass_box = self.sleepy_find_element(By.ID, 'password')
+            pass_box.send_keys(password)
+            logging.info('Filled password box')
+            
         # Click continue
         pass_box.send_keys(Keys.ENTER)
         time.sleep(1)
