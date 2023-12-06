@@ -111,6 +111,7 @@ class ChatGPTClient(BaseBrowser):
 
         # Find login button, click it
         login_button = self.sleepy_find_element(By.XPATH, self.login_xq)
+        time.sleep(1)
         login_button.click()
         time.sleep(1)
         logging.info('Clicked login button')
