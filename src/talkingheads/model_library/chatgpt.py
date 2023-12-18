@@ -213,9 +213,13 @@ class ChatGPTClient(BaseBrowser):
         text_area.send_keys(Keys.RETURN)
         logging.info('Message sent, waiting for response')
         self.wait_until_disappear(By.XPATH, self.wait_xq, self.wait_until_disappear_delay)
+        
+        time.sleep(1)
         if self.find_or_fail(By.XPATH, self.continue_generate_xq, return_type='last'):
             self.find_or_fail(By.XPATH, self.continue_generate_xq, return_type='last').click()
             self.wait_until_disappear(By.XPATH, self.wait_xq, self.wait_until_disappear_delay)
+            time.sleep(1)
+            
         answer = self.find_or_fail(By.XPATH, self.chatbox_xq, return_type='last')
         if not answer:
             logging.error('There is no answer, something is wrong')
